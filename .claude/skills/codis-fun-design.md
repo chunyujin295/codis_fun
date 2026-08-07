@@ -7,6 +7,10 @@ description: codis-fun 设计准则 — 在写 UI 代码前调用，确保所有
 
 调用时机：新增页面、修改组件、调整样式、写任何 UI 代码之前。
 
+**⚠️ 自更新规则：每次修改完风格/UI 之后，必须检查本 skill 是否需要更新。本 skill 必须始终与用户当前的审美偏好和实际代码实现保持对齐。发现不一致立即修正。**
+
+**⚠️ README 同步规则：每次完成任务后，分析 README.md 是否需要更新（新增功能、变更配置、修正过时描述等）。如需更新，直接修改。**
+
 ## 核心哲学
 
 **侘寂 (wabi-sabi) + 极简** — 不完美、安静、留白。温暖单色调，没有鲜艳色彩，没有多余装饰。
@@ -83,9 +87,14 @@ Dark:   bg=#1a1815  surface=#24211c  text=#e8e0d5  muted=#8c8273  accent=#b8a994
 - 当前页/总页数：`N / M`
 
 ### 目录树 (TOC)
-- 左侧 sticky，细线边框
-- 平铺缩进，不需要折叠三角形
+- `position: fixed` 全高，左侧 `top: 0; bottom: 0`
+- 宽度：`min(360px, calc((100vw - var(--max-width-content)) / 2 - 2rem))`，距离正文 2rem
+- 折叠按钮 `›` 在目录右边缘（目录和正文之间），点击整个目录平滑滑入/滑出（`translateX` 300ms）
+- 折叠后仅露出 30px 按钮标签，展开滑回原位
+- 平铺缩进，文字自然换行不截断，不用折叠三角
+- 深度用整行背景色区分：h2 无背景，h3 `--color-surface`，h4 `--color-border`
 - 当前章节高亮 (accent 色 + 左边框)
+- 滚动条：4px 直角，`--color-border` 色，无上下箭头按钮
 - 900px 以下隐藏
 
 ### 标签
@@ -112,3 +121,6 @@ Dark:   bg=#1a1815  surface=#24211c  text=#e8e0d5  muted=#8c8273  accent=#b8a994
 - ✅ 分页：`←` `N/M` `→`
 - ✅ 置顶分隔：虚线，紧贴置顶区
 - ✅ 置顶区标题：📌 置顶
+- ✅ markdown 标题字号：h5/h6 不得小于正文（1rem），所有 h1–h6 均有显式字号
+- ✅ 搜索索引：`scripts/build-search-index.mjs`，prebuild 自动生成 `public/search-index.json`（已 gitignore）
+- ✅ `.gitignore`：忽略 `node_modules/` `dist/` `.astro/` `public/search-index.json` `.idea/` `*.log`，**不忽略 `.claude/`**

@@ -59,12 +59,18 @@ def hello():
 | 字段 | 必填 | 说明 |
 |------|------|------|
 | `title` | 是 | 文章标题 |
-| `date` | 是 | 发布日期，格式 `YYYY-MM-DD` |
+| `date` | 是 | 发布日期，格式 `YYYY-MM-DD` 或 `'YYYY-MM-DD HH:mm'` |
 | `excerpt` | 否 | 文章摘要，显示在首页卡片上 |
-| `tags` | 否 | 标签列表，显示在文章页顶部 |
+| `tags` | 否 | 标签列表（复数），`["标签1", "标签2"]` |
+| `tag` | 否 | 单个标签（兼容旧格式），string 或 array |
+| `category` | 否 | 分类列表（兼容旧格式），string 或 array |
+| `cover` | 否 | 封面图 URL，显示在文章页顶部 |
+| `sticky` | 否 | 置顶权重，越大越靠前（如 `999`） |
+| `abbrlink` | 否 | 短链接标识（兼容 Hexo） |
 | `draft` | 否 | 设为 `true` 则文章隐藏，不在首页显示 |
 
 - `draft: true` 适合还没写完的文章，构建时自动跳过
+- `tag` / `category` 支持 string 或 array 两种格式，兼容 Hexo 迁移文章
 - 支持 GFM 表格、代码块（自动语法高亮）、任务列表
 
 ## 自定义
@@ -93,14 +99,30 @@ intro: "写一些代码...",        // 首页简介（显示在大标题下方�
 
 ### 调整首页分页数量
 
-首页每页显示 16 篇文章。想改这个数字，编辑 [`src/pages/[...page].astro`](src/pages/%5B...page%5D.astro) 第 12 行：
+首页每页显示 25 篇文章。想改这个数字，编辑 [`src/pages/[...page].astro`](src/pages/%5B...page%5D.astro) 的 `PAGE_SIZE`：
 
 ```ts
-const PAGE_SIZE = 16;  // 改成你想要的数量，比如 10、25、50
+const PAGE_SIZE = 25;  // 改成你想要的数量
 ```
 
-数字越大，首页越长。<br>
-设为 `9999` 相当于不分页。
+### 搜索
+
+全站文章搜索，支持标题 + 正文模糊匹配：
+- 点击 Header 右侧 🔍 图标，或按 `Ctrl+K`
+- 输入关键词即时过滤，`↑↓` 导航，`Enter` 跳转
+- 搜索索引在 `npm run build` 时自动生成（`scripts/build-search-index.mjs`）
+
+### 文章目录树
+
+文章页左侧有自动生成的目录树（TOC），基于文章内 h2–h4 标题：
+- 全高固定定位，平滑滑入/滑出
+- 点击右侧 `›` 按钮折叠/展开
+- 当前阅读位置自动高亮
+- 900px 以下自动隐藏
+
+### 设计准则
+
+本项目遵循一套侘寂极简设计准则，写 UI 之前请先调用 `codis-fun-design` skill 查看。详见 [`.claude/skills/codis-fun-design.md`](.claude/skills/codis-fun-design.md)。
 
 ## 部署
 
