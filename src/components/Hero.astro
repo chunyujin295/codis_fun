@@ -1,0 +1,127 @@
+---
+import { SITE } from "@/lib/constants";
+---
+
+<section class="hero">
+  <div class="hero-inner">
+    <!-- Avatar — circular, grayscale, small -->
+    <div class="avatar-wrap">
+      <img
+        class="avatar"
+        src={SITE.avatarPath}
+        alt={SITE.author}
+        width="80"
+        height="80"
+        loading="eager"
+      />
+    </div>
+
+    <!-- Headline -->
+    <h1 class="headline">{SITE.headline}</h1>
+
+    <!-- Intro -->
+    <p class="intro">{SITE.intro}</p>
+
+    <!-- Scroll indicator — CSS-only animated chevron -->
+    <a href="#articles" class="scroll-indicator" aria-label="向下滚动">
+      <span class="chevron" />
+    </a>
+  </div>
+</section>
+
+<style>
+  .hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: var(--space-lg);
+  }
+
+  .hero-inner {
+    text-align: center;
+    max-width: var(--max-width-content);
+  }
+
+  /* Avatar */
+  .avatar-wrap {
+    display: inline-block;
+    margin-bottom: var(--space-xl);
+  }
+
+  .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    border: 1px solid var(--color-border);
+    transition: filter var(--transition-slow), border-color var(--transition-slow);
+  }
+
+  .avatar:hover {
+    filter: grayscale(0%);
+    border-color: var(--color-accent);
+  }
+
+  /* Headline */
+  .headline {
+    font-family: var(--font-serif);
+    font-size: var(--text-3xl);
+    font-weight: 400;
+    line-height: var(--leading-tight);
+    color: var(--color-text);
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-lg);
+  }
+
+  /* Intro */
+  .intro {
+    font-family: var(--font-sans);
+    font-size: var(--text-md);
+    font-weight: 300;
+    line-height: var(--leading-relaxed);
+    color: var(--color-text-muted);
+    max-width: 48ch;
+    margin-inline: auto;
+  }
+
+  /* Scroll indicator */
+  .scroll-indicator {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-2xl);
+    text-decoration: none;
+  }
+
+  .chevron {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-right: 1.5px solid var(--color-text-subtle);
+    border-bottom: 1.5px solid var(--color-text-subtle);
+    transform: rotate(45deg);
+    animation: chevron-pulse 2.5s ease-in-out infinite;
+  }
+
+  @keyframes chevron-pulse {
+    0%, 100% {
+      opacity: 0.3;
+      transform: rotate(45deg) translate(0, 0);
+    }
+    50% {
+      opacity: 0.8;
+      transform: rotate(45deg) translate(4px, 4px);
+    }
+  }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .headline {
+      font-size: var(--text-2xl);
+    }
+    .intro {
+      font-size: var(--text-base);
+    }
+  }
+</style>

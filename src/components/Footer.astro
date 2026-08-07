@@ -1,0 +1,26 @@
+---
+interface Props {
+  author: string;
+}
+const { author } = Astro.props;
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <p class="footer-text">&copy; {year} {author}</p>
+</footer>
+
+<style>
+  .footer {
+    max-width: var(--max-width-site);
+    margin-inline: auto;
+    padding: var(--space-2xl) var(--space-lg) var(--space-lg);
+  }
+
+  .footer-text {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--color-text-muted);
+  }
+</style>

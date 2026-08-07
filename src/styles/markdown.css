@@ -1,0 +1,190 @@
+/* =========================================
+   Markdown / Prose Styles
+   Wabi-sabi reading experience.
+   ========================================= */
+
+.prose {
+  /* Width is controlled by the parent layout (--max-width-content) */
+  margin-inline: auto;
+}
+
+/* --- Headings --- */
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  font-family: var(--font-serif);
+  font-weight: 500;
+  line-height: var(--leading-tight);
+  color: var(--color-text);
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-md);
+}
+
+.prose h1:first-child,
+.prose h2:first-child,
+.prose h3:first-child {
+  margin-top: 0;
+}
+
+.prose h1 { font-size: var(--text-2xl); }
+.prose h2 { font-size: var(--text-xl); }
+.prose h3 { font-size: var(--text-lg); }
+.prose h4 { font-size: var(--text-md); }
+
+/* --- Paragraphs --- */
+.prose p {
+  font-family: var(--font-serif);
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+}
+
+/* --- Links --- */
+.prose a {
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-decoration-color: var(--color-border);
+  text-underline-offset: 3px;
+  transition: text-decoration-color var(--transition), color var(--transition);
+}
+
+.prose a:hover {
+  text-decoration-color: var(--color-accent-hover);
+  color: var(--color-accent-hover);
+}
+
+/* --- Bold & Italic --- */
+.prose strong {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.prose em {
+  font-style: italic;
+}
+
+/* --- Blockquote --- */
+.prose blockquote {
+  margin: var(--space-lg) 0;
+  padding: 0 var(--space-lg);
+  border-left: 2px solid var(--color-border);
+  font-style: italic;
+  color: var(--color-text-muted);
+}
+
+.prose blockquote p {
+  color: inherit;
+}
+
+/* --- Lists --- */
+.prose ul,
+.prose ol {
+  margin: var(--space-md) 0;
+  padding-left: var(--space-lg);
+}
+
+.prose li {
+  font-family: var(--font-serif);
+  font-size: var(--text-base);
+  line-height: var(--leading-relaxed);
+  color: var(--color-text);
+  margin-bottom: var(--space-xs);
+}
+
+.prose li > ul,
+.prose li > ol {
+  margin-top: var(--space-xs);
+  margin-bottom: 0;
+}
+
+/* --- Code (inline) --- */
+.prose code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  color: var(--color-code-text);
+  background-color: var(--color-code-bg);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-sm);
+  font-weight: 400;
+}
+
+/* --- Code blocks --- */
+.prose pre {
+  margin: var(--space-lg) 0;
+  padding: var(--space-md) var(--space-lg);
+  background-color: var(--color-code-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  overflow-x: auto;
+  font-size: var(--text-sm);
+  line-height: var(--leading-normal);
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  color: inherit;
+}
+
+/* --- Images --- */
+.prose img {
+  margin: var(--space-xl) auto;
+  border-radius: var(--radius-md);
+}
+
+/* --- Horizontal rule --- */
+.prose hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-xl) 0;
+}
+
+/* --- Tables --- */
+.prose table {
+  width: 100%;
+  margin: var(--space-lg) 0;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.prose th,
+.prose td {
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-border);
+  text-align: left;
+}
+
+.prose th {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  background-color: var(--color-surface);
+}
+
+/* --- Task lists --- */
+.prose ul.contains-task-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.prose .task-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+/* --- iframe / embeds --- */
+.prose iframe {
+  max-width: 100%;
+  margin: var(--space-lg) 0;
+}
+
+/* --- Code syntax highlighting (Shiki) --- */
+.prose pre {
+  /* Shiki will inject its own styles via data-theme-specific selectors */
+}

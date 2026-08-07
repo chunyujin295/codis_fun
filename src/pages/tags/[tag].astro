@@ -1,0 +1,108 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import TagSidebar from "@/components/TagSidebar.astro";
+import ArticleList from "@/components/ArticleList.astro";
+import { SITE } from "@/lib/constants";
+import { getSlug, formatDate, getArticleTags } from "@/lib/utils";
+
+export async function getStaticPaths() {
+  const allArticles = await getCollection(
+    "articles",
+    ({ data }) => !data.draft,
+  );
+
+  // Collect all unique tags
+  const allTags = [
+    ...new Set(allArticles.flatMap((a) => getArticleTags(a))),
+  ];
+
+  return allTags.map((tag) => ({
+    params: { tag },
+  }));
+}
+
+const { tag } = Astro.params;
+
+// Fetch and filter articles for this tag
+const allArticles = await getCollection(
+  "articles",
+  ({ data }) => !data.draft,
+);
+
+const filtered = allArticles
+  .filter((a) => getArticleTags(a).includes(tag!))
+  .sort((a, b) => {
+    const sa = a.data.sticky ?? 0;
+    const sb = b.data.sticky ?? 0;
+    if (sa !== sb) return sb - sa;
+    return b.data.date.getTime() - a.data.date.getTime();
+  });
+
+// Collect all tags for sidebar
+const allTags = [
+  ...new Set(allArticles.flatMap((a) => getArticleTags(a))),
+].sort((a, b) => a.localeCompare(b, "zh-CN"));
+
+const formattedArticles = filtered.map((article) => ({
+  title: article.data.title,
+  date: formatDate(article.data.date),
+  slug: getSlug(article.id),
+  excerpt: article.data.excerpt,
+}));
+
+const pageTitle = `${tag} — ${SITE.title}`;
+---
+
+<BaseLayout title={pageTitle}>
+  <div class="tag-page-header">
+    <a href="/#articles" class="back-link">&larr; 首页</a>
+  </div>
+  <div class="content-row">
+    <TagSidebar tags={allTags} activeTag={tag} />
+    <div class="main-col">
+      <ArticleList articles={formattedArticles} />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .tag-page-header {
+    padding-top: var(--space-lg);
+    margin-bottom: var(--space-lg);
+  }
+
+  .back-link {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--color-text-muted);
+    transition: color var(--transition);
+  }
+
+  .back-link:hover {
+    color: var(--color-text);
+  }
+
+  .content-row {
+    display: flex;
+    gap: var(--sidebar-gap);
+    align-items: flex-start;
+    padding-bottom: var(--space-3xl);
+  }
+
+  .main-col {
+    flex: 1;
+    min-width: 0;
+  }
+
+  @media (max-width: 640px) {
+    .content-row {
+      flex-direction: column;
+    }
+
+    .main-col {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,108 @@
+---
+export interface Props {
+  /** All unique tag names */
+  tags: string[];
+  /** Currently active tag (undefined = "全部") */
+  activeTag?: string;
+}
+
+const { tags, activeTag } = Astro.props;
+---
+
+<nav class="sidebar" aria-label="标签导航">
+  <h3 class="sidebar-title">分类</h3>
+  <ul class="sidebar-list">
+    <li>
+      <a
+        href="/#articles"
+        class:list={["sidebar-link", { active: !activeTag }]}
+      >
+        全部
+      </a>
+    </li>
+    {tags.map((tag) => (
+      <li>
+        <a
+          href={`/tags/${tag}/`}
+          class:list={["sidebar-link", { active: activeTag === tag }]}
+        >
+          {tag}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .sidebar {
+    flex-shrink: 0;
+    width: var(--sidebar-width);
+    padding-top: var(--space-sm);
+  }
+
+  .sidebar-title {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: 400;
+    color: var(--color-text-subtle);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-md);
+  }
+
+  .sidebar-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .sidebar-link {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--color-text-muted);
+    padding: 4px var(--space-sm);
+    border-radius: var(--radius-sm);
+    transition: color var(--transition), background-color var(--transition);
+  }
+
+  .sidebar-link:hover {
+    color: var(--color-text);
+    background-color: var(--color-surface);
+  }
+
+  .sidebar-link.active {
+    color: var(--color-accent-hover);
+    font-weight: 400;
+  }
+
+  /* Mobile: sidebar collapses above content */
+  @media (max-width: 640px) {
+    .sidebar {
+      width: 100%;
+      padding-top: 0;
+      padding-bottom: var(--space-md);
+      border-bottom: 1px solid var(--color-border);
+      margin-bottom: var(--space-lg);
+    }
+
+    .sidebar-list {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+
+    .sidebar-link {
+      font-size: var(--text-xs);
+      padding: 2px var(--space-sm);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+    }
+
+    .sidebar-link.active {
+      border-color: var(--color-accent);
+    }
+  }
+</style>

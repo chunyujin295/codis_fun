@@ -1,0 +1,72 @@
+---
+import ArticleCard from "@/components/ArticleCard.astro";
+
+export interface ArticleItem {
+  title: string;
+  date: string;
+  slug: string;
+  excerpt?: string;
+}
+
+export interface Props {
+  articles: ArticleItem[];
+}
+
+const { articles } = Astro.props;
+---
+
+<section id="articles" class="article-section">
+  <h2 class="section-title">
+    Notes
+    {articles.length > 0 && (
+      <span class="section-count">{articles.length}</span>
+    )}
+  </h2>
+
+  {articles.length > 0 ? (
+    <div class="article-list">
+      {articles.map((article) => (
+        <ArticleCard
+          title={article.title}
+          date={article.date}
+          slug={article.slug}
+          excerpt={article.excerpt}
+        />
+      ))}
+    </div>
+  ) : (
+    <p class="empty-text">还没有文章，敬请期待。</p>
+  )}
+</section>
+
+<style>
+  .article-section {
+    padding-bottom: var(--space-3xl);
+  }
+
+  .section-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-sm);
+    font-weight: 400;
+    color: var(--color-text-subtle);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: var(--space-xl);
+  }
+
+  .section-count {
+    font-family: var(--font-sans);
+    font-size: var(--text-xs);
+    font-weight: 300;
+    color: var(--color-text-muted);
+    margin-left: var(--space-sm);
+    vertical-align: middle;
+  }
+
+  .empty-text {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--color-text-muted);
+  }
+</style>

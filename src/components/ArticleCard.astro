@@ -1,0 +1,91 @@
+---
+export interface Props {
+  title: string;
+  date: string;
+  slug: string;
+  excerpt?: string;
+}
+
+const { title, date, slug, excerpt } = Astro.props;
+---
+
+<a href={`/articles/${slug}`} class="card-link">
+  <article class="card">
+    <time class="card-date" datetime={date}>
+      {date}
+    </time>
+    <h2 class="card-title">{title}</h2>
+    {excerpt && <p class="card-excerpt">{excerpt}</p>}
+    <span class="card-arrow" aria-hidden="true">&rarr;</span>
+  </article>
+</a>
+
+<style>
+  .card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: var(--space-md) 0;
+    border-bottom: 1px solid var(--color-border);
+    transition: padding var(--transition);
+  }
+
+  .card-link:first-child {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .card-link:hover {
+    padding-left: var(--space-md);
+  }
+
+  .card {
+    position: relative;
+  }
+
+  .card-date {
+    display: block;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 300;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-xs);
+  }
+
+  .card-title {
+    font-family: var(--font-serif);
+    font-size: var(--text-md);
+    font-weight: 500;
+    line-height: var(--leading-snug);
+    color: var(--color-text);
+    margin-bottom: var(--space-xs);
+    transition: color var(--transition);
+  }
+
+  .card-link:hover .card-title {
+    color: var(--color-accent);
+  }
+
+  .card-excerpt {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 300;
+    line-height: var(--leading-normal);
+    color: var(--color-text-muted);
+  }
+
+  .card-arrow {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%) translateX(-8px);
+    font-size: var(--text-lg);
+    color: var(--color-text-subtle);
+    opacity: 0;
+    transition: opacity var(--transition), transform var(--transition);
+  }
+
+  .card-link:hover .card-arrow {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+</style>
