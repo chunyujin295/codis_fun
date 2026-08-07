@@ -7,6 +7,7 @@
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
+    "prebuild": "node scripts/build-search-index.mjs",
     "preview": "astro preview"
   },
   "dependencies": {
@@ -14,6 +15,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.0.0",
+    "gray-matter": "^4.0.3",
     "typescript": "^5.5.0"
   }
 }

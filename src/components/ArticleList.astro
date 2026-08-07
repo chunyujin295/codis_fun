@@ -10,16 +10,22 @@ export interface ArticleItem {
 
 export interface Props {
   articles: ArticleItem[];
+  heading?: string;
+  /** Total count across all pages (shown instead of current page count when set) */
+  totalCount?: number;
+  /** Reduce bottom padding for compact placement */
+  compact?: boolean;
 }
 
-const { articles } = Astro.props;
+const { articles, heading = "Notes", totalCount, compact = false } = Astro.props;
+const count = totalCount ?? articles.length;
 ---
 
-<section id="articles" class="article-section">
+<section id="articles" class:list={["article-section", { compact }]}>
   <h2 class="section-title">
-    Notes
-    {articles.length > 0 && (
-      <span class="section-count">{articles.length}</span>
+    {heading}
+    {count > 0 && (
+      <span class="section-count">{count}</span>
     )}
   </h2>
 
@@ -42,6 +48,10 @@ const { articles } = Astro.props;
 <style>
   .article-section {
     padding-bottom: var(--space-3xl);
+  }
+
+  .article-section.compact {
+    padding-bottom: 0;
   }
 
   .section-title {

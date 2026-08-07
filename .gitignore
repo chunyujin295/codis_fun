@@ -1,7 +1,22 @@
+# Dependencies
 node_modules/
+
+# Build output
 dist/
 .astro/
-.claude/
+
+# Generated (prebuild script)
+public/search-index.json
+
+# IDE
 .idea/
+*.swp
+*.swo
+*~
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Logs
 *.log

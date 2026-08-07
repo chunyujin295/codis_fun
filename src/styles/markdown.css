@@ -33,6 +33,8 @@
 .prose h2 { font-size: var(--text-xl); }
 .prose h3 { font-size: var(--text-lg); }
 .prose h4 { font-size: var(--text-md); }
+.prose h5 { font-size: var(--text-base); }
+.prose h6 { font-size: var(--text-base); }
 
 /* --- Paragraphs --- */
 .prose p {

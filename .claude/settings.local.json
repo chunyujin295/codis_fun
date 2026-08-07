@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-astro@latest . --template minimal --typescript strict --skip-houston --no-install)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(rm -rf dist)",
+      "Bash(npx astro *)",
+      "Bash(curl -s -o NUL -w \"%{http_code}\" http://localhost:4321/)",
+      "Bash(curl -s http://localhost:4321/)",
+      "Bash(curl -s http://localhost:4321/articles/2024-01-hello-world/)"
+    ]
+  }
+}

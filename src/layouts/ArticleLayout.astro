@@ -1,5 +1,12 @@
 ---
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import TocSidebar from "@/components/TocSidebar.astro";
+
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
 
 export interface Props {
   title: string;
@@ -7,53 +14,74 @@ export interface Props {
   date?: Date;
   tags?: string[];
   cover?: string;
+  headings?: Heading[];
 }
 
-const { title, description, date, tags = [], cover } = Astro.props;
+const { title, description, date, tags = [], cover, headings = [] } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description} isArticle={true}>
-  <article class="article">
-    <header class="article-header">
-      <a href="/" class="back-link" aria-label="返回首页">&larr; 首页</a>
+<BaseLayout title={title} description={description}>
+  {headings.length > 0 && (
+    <TocSidebar headings={headings} />
+  )}
 
-      {date && (
-        <time class="article-date" datetime={date.toISOString()}>
-          {date.toLocaleDateString("zh-CN", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}
-        </time>
-      )}
-
-      <h1 class="article-title">{title}</h1>
-
-      {tags.length > 0 && (
-        <div class="article-tags">
-          {tags.map((tag) => (
-            <span class="tag">{tag}</span>
-          ))}
+  <div class="article-wrapper" class:list={[{ "has-toc": headings.length > 0 }]}>
+    <article class="article">
+      {cover && (
+        <div class="article-cover">
+          <img src={cover} alt={title} loading="eager" />
         </div>
       )}
-    </header>
 
-    {cover && (
-      <div class="article-cover">
-        <img src={cover} alt={title} loading="eager" />
+      <header class="article-header">
+        <a href="/" class="back-link" aria-label="返回首页">&larr;</a>
+
+        {date && (
+          <time class="article-date" datetime={date.toISOString()}>
+            {date.toLocaleDateString("zh-CN", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </time>
+        )}
+
+        <h1 class="article-title">{title}</h1>
+
+        {tags.length > 0 && (
+          <div class="article-tags">
+            {tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      <div class="article-body">
+        <slot />
       </div>
-    )}
-
-    <div class="article-body">
-      <slot />
-    </div>
-  </article>
+    </article>
+  </div>
 </BaseLayout>
 
 <style>
+  .article-wrapper {
+    max-width: var(--max-width-site);
+    margin-inline: auto;
+    padding-block: var(--space-3xl);
+  }
+
+  .article-wrapper.has-toc {
+    padding-left: min(360px, calc((100vw - var(--max-width-content)) / 2 - 2rem));
+  }
+
   .article {
     max-width: var(--max-width-content);
     margin-inline: auto;
+  }
+
+  .article-wrapper.has-toc .article {
+    margin-inline: 0;
   }
 
   .article-header {
@@ -62,9 +90,9 @@ const { title, description, date, tags = [], cover } = Astro.props;
 
   .back-link {
     display: inline-block;
-    font-family: var(--font-sans);
-    font-size: var(--text-sm);
-    font-weight: 300;
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    font-weight: 700;
     color: var(--color-text-muted);
     margin-bottom: var(--space-xl);
     transition: color var(--transition);
@@ -115,6 +143,7 @@ const { title, description, date, tags = [], cover } = Astro.props;
     border-radius: var(--radius-md);
     overflow: hidden;
     border: 1px solid var(--color-border);
+    width: 100%;
   }
 
   .article-cover img {
@@ -127,6 +156,11 @@ const { title, description, date, tags = [], cover } = Astro.props;
 
   .article-body {
     font-family: var(--font-serif);
-    /* Prose styles from markdown.css handle content styling */
+  }
+
+  @media (max-width: 900px) {
+    .article-wrapper.has-toc {
+      padding-left: 0;
+    }
   }
 </style>
