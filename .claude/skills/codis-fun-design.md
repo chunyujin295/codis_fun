@@ -124,3 +124,4 @@ Dark:   bg=#1a1815  surface=#24211c  text=#e8e0d5  muted=#8c8273  accent=#b8a994
 - ✅ markdown 标题字号：h5/h6 不得小于正文（1rem），所有 h1–h6 均有显式字号
 - ✅ 搜索索引：`scripts/build-search-index.mjs`，prebuild 自动生成 `public/search-index.json`（已 gitignore）
 - ✅ `.gitignore`：忽略 `node_modules/` `dist/` `.astro/` `public/search-index.json` `.idea/` `*.log`，**不忽略 `.claude/`**
+- ✅ Markdown 扩展：`remark-math` + `rehype-katex`（数学公式），Mermaid 客户端渲染（流程图/时序图等全部图表类型）

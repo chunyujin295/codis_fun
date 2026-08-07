@@ -5,3 +5,52 @@ import "@/styles/markdown.css";
 <div class="prose">
   <slot />
 </div>
+
+<script>
+  // Client-side Mermaid diagram rendering
+  (async () => {
+    const mermaidBlocks = document.querySelectorAll<HTMLElement>("code.language-mermaid");
+    if (mermaidBlocks.length === 0) return;
+
+    const mermaid = (await import("mermaid")).default;
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "neutral",
+      securityLevel: "loose",
+    });
+
+    for (const block of mermaidBlocks) {
+      const pre = block.parentElement;
+      if (!pre || pre.tagName !== "PRE") continue;
+
+      const code = block.textContent ?? "";
+      // Use a unique ID to avoid conflicts
+      const id = `mermaid-${Math.random().toString(36).slice(2, 8)}`;
+
+      try {
+        const { svg } = await mermaid.render(id, code);
+        const container = document.createElement("div");
+        container.className = "mermaid-container";
+        container.innerHTML = svg;
+        pre.replaceWith(container);
+      } catch (err) {
+        console.warn("[mermaid] render error:", err);
+        // Leave the original code block on error
+      }
+    }
+  })();
+</script>
+
+<style>
+  .mermaid-container {
+    margin: var(--space-lg) 0;
+    display: flex;
+    justify-content: center;
+  }
+
+  .mermaid-container svg {
+    max-width: 100%;
+    height: auto;
+    background: transparent;
+  }
+</style>

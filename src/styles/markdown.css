@@ -190,3 +190,18 @@
 .prose pre {
   /* Shiki will inject its own styles via data-theme-specific selectors */
 }
+
+/* --- KaTeX — theme-aware color overrides --- */
+.prose .katex {
+  font-size: 1.05em;
+}
+
+.prose .katex .mathnormal,
+.prose .katex .mord {
+  color: var(--color-text);
+}
+
+[data-theme="dark"] .prose .katex .mathnormal,
+[data-theme="dark"] .prose .katex .mord {
+  color: var(--color-text);
+}

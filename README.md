@@ -71,7 +71,19 @@ def hello():
 
 - `draft: true` 适合还没写完的文章，构建时自动跳过
 - `tag` / `category` 支持 string 或 array 两种格式，兼容 Hexo 迁移文章
-- 支持 GFM 表格、代码块（自动语法高亮）、任务列表
+
+### Markdown 扩展
+
+除了 GFM 标准（表格、代码高亮、任务列表），还支持：
+
+| 功能 | 语法 | 说明 |
+|------|------|------|
+| **数学公式** | `$E=mc^2$` 行内，`$$...$$` 块级 | KaTeX 渲染 |
+| **流程图/时序图** | ```` ```mermaid ```` 代码块 | Mermaid 客户端渲染 |
+| **HTML 标签** | `<img>` `<video>` `<details>` 等 | 原生 HTML 透传 |
+
+- `remark-math` + `rehype-katex` 处理公式
+- Mermaid 支持 flowchart、sequence、class、state、ER、gantt、pie 等全部图表类型
 
 ## 自定义
 
