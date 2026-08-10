@@ -1,5 +1,9 @@
 # Codis Fun
 
+<p align="center">
+  <img src="./public/coffee.svg" alt="LOGO" width="200">
+</p>
+
 个人网站
 
 ## 启动
