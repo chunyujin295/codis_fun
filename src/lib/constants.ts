@@ -9,7 +9,7 @@ export const SITE = {
   author: "YJ",
   language: "zh-CN",
   /** Path to your avatar in /public */
-  avatarPath: "/avatar.svg",
+  avatarPath: "/coffee.svg",
   /** The large hero heading */
   headline: "Code is Fun",
   /** Short intro below the headline */
