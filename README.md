@@ -173,6 +173,10 @@ const PAGE_SIZE = 25;  // 改成你想要的数量
 
 本项目遵循一套侘寂极简设计准则，写 UI 之前请先调用 `codis-fun-design` skill 查看。详见 [`.claude/skills/codis-fun-design.md`](.claude/skills/codis-fun-design.md)。
 
+## 性能优化
+
+本站做过的资源压缩与性能优化（SVG 压缩、字体子集化、Nginx gzip 与缓存等）及具体方法，详见 [`docs/performance.md`](docs/performance.md)。
+
 ## 部署
 
 构建产物是纯静态文件（HTML + CSS + SVG），部署到任意静态托管。
@@ -274,10 +278,16 @@ server {
     # 关闭绝对重定向，避免在反向代理 / 端口映射下 301 跳到错误的主机:端口
     absolute_redirect off;
 
-    # 静态文件缓存（CSS、SVG 等带 hash 的资源）
+    # 静态文件缓存（CSS、JS 等带 hash 的资源）
     location /_astro/ {
         expires 1y;
         add_header Cache-Control "public, immutable";
+    }
+
+    # 字体缓存
+    location /fonts/ {
+        expires 30d;
+        add_header Cache-Control "public";
     }
 
     # SPA 兜底：所有路径都尝试返回 index.html
@@ -285,10 +295,11 @@ server {
         try_files $uri $uri/ $uri.html =404;
     }
 
-    # Gzip 压缩
+    # Gzip 压缩（text/html 默认已压缩，无需列出）
     gzip on;
-    gzip_types text/html text/css application/javascript image/svg+xml;
-    gzip_min_length 256;
+    gzip_vary on;
+    gzip_comp_level 6;
+    gzip_types text/css application/javascript application/json image/svg+xml;
 }
 ```
 
