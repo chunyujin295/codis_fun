@@ -4,8 +4,14 @@
    quiet typography. No vivid colors.
    ========================================= */
 
-/* --- Google Fonts import --- */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400&family=JetBrains+Mono:wght@400&family=Noto+Sans+SC:wght@300;400&family=Noto+Serif+SC:wght@400;500&display=swap");
+/* --- Local webfont: 霞鹜文楷 (LXGW WenKai) --- */
+@font-face {
+  font-family: "LXGW WenKai";
+  src: url("/fonts/LXGWWenKai-Medium.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* =========================================
    Design Tokens
@@ -56,9 +62,9 @@
    ========================================= */
 
 :root {
-  --font-serif: "Noto Serif SC", "Georgia", "Times New Roman", serif;
-  --font-sans: "Noto Sans SC", "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono: "JetBrains Mono", "Cascadia Code", "Fira Code", "Consolas", monospace;
+  --font-serif: "LXGW WenKai", "Songti SC", "STSong", "SimSun", serif;
+  --font-sans: "LXGW WenKai", system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "Fira Code", "SF Mono", Consolas, monospace;
 
   --text-xs: 0.75rem;
   --text-sm: 0.875rem;
