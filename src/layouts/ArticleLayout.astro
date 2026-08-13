@@ -35,7 +35,7 @@ const { title, description, date, tags = [], cover, headings = [] } = Astro.prop
       )}
 
       <header class="article-header">
-        <a href="/" class="back-link" aria-label="返回首页">&larr;</a>
+        <a href="/" class="back-link" aria-label="返回上一页" data-back-link>&larr;</a>
 
         {date && (
           <time class="article-date" datetime={date.toISOString()}>
@@ -64,6 +64,18 @@ const { title, description, date, tags = [], cover, headings = [] } = Astro.prop
     </article>
   </div>
 </BaseLayout>
+
+<script>
+  const backLink = document.querySelector("[data-back-link]");
+  backLink?.addEventListener("click", (event) => {
+    // 优先走浏览器历史，能还原来源页的分页与滚动位置；
+    // 没有历史（直接打开/新标签页）时回退到默认的 href="/" 首页。
+    if (document.referrer && history.length > 1) {
+      event.preventDefault();
+      history.back();
+    }
+  });
+</script>
 
 <style>
   .article-wrapper {
