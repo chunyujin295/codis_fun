@@ -9,7 +9,7 @@ export interface Props {
 const { title, date, slug, excerpt } = Astro.props;
 ---
 
-<a href={`/articles/${slug}`} class="card-link">
+<a href={`/articles/${slug}/`} class="card-link">
   <article class="card">
     <time class="card-date" datetime={date}>
       {date}

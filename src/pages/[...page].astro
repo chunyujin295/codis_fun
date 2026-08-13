@@ -91,7 +91,7 @@ const totalNormal = fullCollection.length - totalPinned;
         <nav class="pagination" aria-label="分页导航">
           {currentPage > 1 ? (
             <a
-              href={currentPage === 2 ? "/" : `/${currentPage - 1}`}
+              href={currentPage === 2 ? "/" : `/${currentPage - 1}/`}
               class="page-link prev"
               rel="prev"
               aria-label="上一页"
@@ -108,7 +108,7 @@ const totalNormal = fullCollection.length - totalPinned;
 
           {currentPage < lastPage ? (
             <a
-              href={`/${currentPage + 1}`}
+              href={`/${currentPage + 1}/`}
               class="page-link next"
               rel="next"
               aria-label="下一页"
