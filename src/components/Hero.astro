@@ -4,7 +4,7 @@ import { SITE } from "@/lib/constants";
 
 <section class="hero">
   <div class="hero-inner">
-    <!-- Avatar — circular, grayscale, small -->
+    <!-- Avatar — circular, small -->
     <div class="avatar-wrap">
       <img
         class="avatar"
@@ -54,13 +54,11 @@ import { SITE } from "@/lib/constants";
     height: 80px;
     border-radius: 50%;
     object-fit: cover;
-    filter: grayscale(100%);
     border: 1px solid var(--color-border);
-    transition: filter var(--transition-slow), border-color var(--transition-slow);
+    transition: border-color var(--transition-slow);
   }
 
   .avatar:hover {
-    filter: grayscale(0%);
     border-color: var(--color-accent);
   }
 

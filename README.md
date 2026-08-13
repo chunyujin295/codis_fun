@@ -101,6 +101,15 @@ def hello():
 avatarPath: "/my-avatar.png",  // 改成你的文件名
 ```
 
+头像默认显示彩色（不置灰）。如果想改回「平时置灰、悬停恢复彩色」，编辑 [`src/components/Hero.astro`](src/components/Hero.astro) 的 `.avatar` 样式，加上：
+
+```css
+filter: grayscale(100%);
+transition: filter var(--transition-slow), border-color var(--transition-slow);
+```
+
+并在 `.avatar:hover` 里加上 `filter: grayscale(0%);`。
+
 ### 改标题和简介
 
 编辑 [`src/lib/constants.ts`](src/lib/constants.ts)：
@@ -109,6 +118,17 @@ avatarPath: "/my-avatar.png",  // 改成你的文件名
 title: "Codis Fun",           // 浏览器标签页上的标题
 headline: "安静的角落",        // 首页大标题
 intro: "写一些代码...",        // 首页简介（显示在大标题下方）
+```
+
+改完保存，浏览器自动刷新。
+
+### 改标签页图标（favicon）
+
+1. 准备一张 SVG 图标，放到 `public/` 目录下，比如 `public/coffee.svg`
+2. 编辑 [`src/layouts/BaseLayout.astro`](src/layouts/BaseLayout.astro)，把 `href` 改成你的文件名：
+
+```html
+<link rel="icon" type="image/svg+xml" href="/coffee.svg" />
 ```
 
 改完保存，浏览器自动刷新。
@@ -143,6 +163,21 @@ const PAGE_SIZE = 25;  // 改成你想要的数量
 ## 部署
 
 构建产物是纯静态文件（HTML + CSS + SVG），部署到任意静态托管。
+
+### 本机部署（当前方式）
+
+本站目前就跑在**本机**，由 Nginx 直接服务 `dist/` 目录：
+
+- 站点配置：`/etc/nginx/sites-available/codis-fun`（root 指向 `dist/`，监听 5006 端口，域名 `codis.fun`）
+- Nginx 每次请求实时读取 `dist/` 里的文件，因此**改完重新构建即可生效，无需 reload nginx**
+
+修改源码后，重新部署生效只需：
+
+```bash
+npm run build    # 重新构建，dist/ 更新，nginx 立即读到新内容
+```
+
+浏览器刷新即可看到效果；若没变化按 `Ctrl+Shift+R` 硬刷新，绕过浏览器对旧 HTML/CSS 的缓存。
 
 ---
 
