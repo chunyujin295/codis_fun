@@ -4,11 +4,19 @@
    quiet typography. No vivid colors.
    ========================================= */
 
-/* --- Local webfont: 霞鹜文楷 (LXGW WenKai) --- */
+/* --- Local webfont: 思源宋体 (Source Han Serif CN) --- */
 @font-face {
-  font-family: "LXGW WenKai";
-  src: url("/fonts/LXGWWenKai-Medium.woff2") format("woff2");
+  font-family: "Source Han Serif CN";
+  src: url("/fonts/SourceHanSerifCN-Regular.woff2") format("woff2");
   font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Han Serif CN";
+  src: url("/fonts/SourceHanSerifCN-Medium.woff2") format("woff2");
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
@@ -62,8 +70,8 @@
    ========================================= */
 
 :root {
-  --font-serif: "LXGW WenKai", "Songti SC", "STSong", "SimSun", serif;
-  --font-sans: "LXGW WenKai", system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-serif: "Source Han Serif CN", "Songti SC", "STSong", "SimSun", serif;
+  --font-sans: "Source Han Serif CN", "Songti SC", system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-mono: ui-monospace, "Cascadia Code", "Fira Code", "SF Mono", Consolas, monospace;
 
   --text-xs: 0.75rem;

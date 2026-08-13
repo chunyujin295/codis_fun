@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""从站点源码提取字符集，生成 LXGW WenKai 字体的 woff2 子集。
+"""从站点源码提取字符集，生成中文字体的 woff2 子集。
 
 用法：
-    python3 scripts/subset-font.py
+    python3 scripts/subset-font.py                       # 默认：思源宋体 Regular
+    python3 scripts/subset-font.py <源字体>               # 指定源字体，输出到 public/fonts/<同名>.woff2
 
 依赖 fonttools + brotli（pip install --break-system-packages fonttools brotli）。
 当新增文章用到了当前子集之外的汉字时，重新运行本脚本即可更新字体。
@@ -12,8 +13,9 @@ import subprocess
 import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SRC_FONT = os.path.join(ROOT, "src", "font", "LXGWWenKai-Medium.ttf")
-OUT_FONT = os.path.join(ROOT, "public", "fonts", "LXGWWenKai-Medium.woff2")
+FONT_DIR = os.path.join(ROOT, "src", "font")
+OUT_DIR = os.path.join(ROOT, "public", "fonts")
+DEFAULT_FONT = os.path.join(FONT_DIR, "SourceHanSerifCN", "SourceHanSerifCN-Regular.otf")
 
 SCAN_DIRS = ["src/content", "src/pages", "src/components", "src/layouts", "src/lib", "src/styles"]
 EXTENSIONS = {".md", ".astro", ".ts", ".css", ".mjs", ".json"}
@@ -52,32 +54,35 @@ def gb2312_level1() -> set[str]:
 
 
 def main() -> int:
-    if not os.path.exists(SRC_FONT):
-        print(f"源字体不存在: {SRC_FONT}", file=sys.stderr)
+    src = os.path.abspath(sys.argv[1]) if len(sys.argv) > 1 else DEFAULT_FONT
+    if not os.path.exists(src):
+        print(f"源字体不存在: {src}", file=sys.stderr)
         return 1
+
+    out = os.path.join(OUT_DIR, os.path.splitext(os.path.basename(src))[0] + ".woff2")
 
     chars = collect_chars() | gb2312_level1()
     text_file = "/tmp/subset-font-chars.txt"
     with open(text_file, "w", encoding="utf-8") as f:
         f.write("".join(sorted(chars)))
 
-    os.makedirs(os.path.dirname(OUT_FONT), exist_ok=True)
+    os.makedirs(os.path.dirname(out), exist_ok=True)
     cmd = [
-        "pyftsubset", SRC_FONT,
+        "pyftsubset", src,
         f"--text-file={text_file}",
-        f"--output-file={OUT_FONT}",
+        f"--output-file={out}",
         "--flavor=woff2",
         "--layout-features=*",
         "--no-hinting",
     ]
-    print(f"子集化 {len(chars)} 个字符 -> {OUT_FONT}")
+    print(f"子集化 {len(chars)} 个字符: {os.path.basename(src)} -> {out}")
     try:
         subprocess.run(cmd, check=True)
     except FileNotFoundError:
         print("未找到 pyftsubset，请先安装: pip install --break-system-packages fonttools brotli", file=sys.stderr)
         return 1
 
-    size = os.path.getsize(OUT_FONT)
+    size = os.path.getsize(out)
     print(f"完成: {size / 1024:.0f} KiB")
     return 0
 
