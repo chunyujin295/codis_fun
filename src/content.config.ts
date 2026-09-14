@@ -17,12 +17,12 @@ const articles = defineCollection({
       .transform(v => typeof v === "string" ? [v] : v)
       .optional()
       .default([]),
-    /** 封面图 URL（兼容 null） */
-    cover: z.string().nullable().optional(),
+    /** 封面图 URL（兼容 null 和 boolean） */
+    cover: z.union([z.string(), z.boolean()]).nullable().optional(),
     /** 置顶权重（越大越靠前） */
     sticky: z.number().nullable().optional().default(0),
-    /** 短链接标识 */
-    abbrlink: z.string().optional(),
+    /** 短链接标识（兼容 null） */
+    abbrlink: z.string().nullable().optional(),
     /** 草稿 */
     draft: z.boolean().optional().default(false),
   }),
