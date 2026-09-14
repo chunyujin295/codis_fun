@@ -76,6 +76,13 @@ def hello():
 - `draft: true` 适合还没写完的文章，构建时自动跳过
 - `tag` / `category` 支持 string 或 array 两种格式，兼容 Hexo 迁移文章
 
+### 文章如何更新到网站
+
+- Astro 会自动扫描 `src/content/articles/`：新增 `.md` 文件后，无需手动修改文章列表或路由，文章会自动出现在首页、标签页和搜索结果中
+- 运行 `npm run dev` 时，新增或修改文章并保存，浏览器会自动热更新；文章地址为 `/articles/文件名`（不包含 `.md`）
+- 已部署的网站不会仅因源码文件变化而自动更新。发布新文章后需要运行 `npm run build`，重新生成 `dist/` 和搜索索引
+- 本项目当前由 Nginx 直接读取 `dist/`，因此构建完成后无需重启或重新加载 Nginx，刷新页面即可看到新内容
+
 ### 封面图
 
 `cover` 字段的文章封面图显示在文章页顶部，被 `object-fit: cover` + `max-height: 480px` 居中裁剪（上下各裁掉一部分）。建议：
